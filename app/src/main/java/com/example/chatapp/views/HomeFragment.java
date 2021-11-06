@@ -31,6 +31,12 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        homeViewModel.getUsers().observe(this, new Observer<ArrayList<User>>() {
+            @Override
+            public void onChanged(ArrayList<User> users) {
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Nullable
@@ -39,15 +45,8 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         mainUserRecycleView = view.findViewById(R.id.main_user_recycle_view);
+        mainUserRecycleView.setHasFixedSize(true);
         mainUserRecycleView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-
-
-        homeViewModel.getUsers().observe(getViewLifecycleOwner(), new Observer<ArrayList<User>>() {
-            @Override
-            public void onChanged(ArrayList<User> users) {
-                adapter.notifyDataSetChanged();
-            }
-        });
 
         adapter = new UsersAdapter(homeViewModel.getUsers().getValue());
         mainUserRecycleView.setAdapter(adapter);

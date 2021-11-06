@@ -26,7 +26,9 @@ public class HomeViewModel extends ViewModel {
         userArrayList = new ArrayList<>();
         users = new MutableLiveData<>();
         DatabaseReference reference = database.getReference().child("users-reg");
-        loadUser();
+        if (userArrayList.size() == 0){
+            loadUser();
+        }
     }
 
     //async error
@@ -38,7 +40,6 @@ public class HomeViewModel extends ViewModel {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     User user = dataSnapshot.getValue(User.class);
-                    Log.i("user name", "onDataChange: " + user.getUserName());
                     userArrayList.add(user);
                 }
                 users.postValue(userArrayList);
