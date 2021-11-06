@@ -1,6 +1,8 @@
 package com.example.chatapp.viewmodel;
 
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -24,32 +26,19 @@ public class HomeViewModel extends ViewModel {
         userArrayList = new ArrayList<>();
         users = new MutableLiveData<>();
         DatabaseReference reference = database.getReference().child("users-reg");
+        loadUser();
+    }
+
+    //async error
+    public void loadUser(){
+        DatabaseReference reference = database.getReference().child("users-reg");
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     User user = dataSnapshot.getValue(User.class);
-                    userArrayList.add(user);
-                }
-                users.postValue(userArrayList);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    public void loadUser(){
-        DatabaseReference reference = database.getReference().child("users-reg");
-
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    User user = dataSnapshot.getValue(User.class);
+                    Log.i("user name", "onDataChange: " + user.getUserName());
                     userArrayList.add(user);
                 }
                 users.postValue(userArrayList);
