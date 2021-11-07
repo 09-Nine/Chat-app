@@ -25,7 +25,6 @@ public class HomeViewModel extends ViewModel {
         database = FirebaseDatabase.getInstance();
         userArrayList = new ArrayList<>();
         users = new MutableLiveData<>();
-        DatabaseReference reference = database.getReference().child("users-reg");
         if (userArrayList.size() == 0){
             loadUser();
         }
@@ -35,7 +34,7 @@ public class HomeViewModel extends ViewModel {
     public void loadUser(){
         DatabaseReference reference = database.getReference().child("users-reg");
 
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
@@ -54,5 +53,9 @@ public class HomeViewModel extends ViewModel {
 
     public MutableLiveData<ArrayList<User>> getUsers() {
         return users;
+    }
+
+    public ArrayList<User> getUserArrayList(){
+        return  userArrayList;
     }
 }

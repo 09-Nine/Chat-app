@@ -71,7 +71,7 @@ public class LoginRegisterViewModel extends AndroidViewModel {
                                                 storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                     @Override
                                                     public void onSuccess(Uri uri) {
-                                                        User user = new User(firebaseAuth.getUid(), name, email, imageUri.toString());
+                                                        User user = new User(firebaseAuth.getUid(), name, email, uri.toString());
                                                         databaseReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {

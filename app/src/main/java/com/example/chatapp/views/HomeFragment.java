@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
         mainUserRecycleView.setHasFixedSize(true);
         mainUserRecycleView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
-        adapter = new UsersAdapter(homeViewModel.getUsers().getValue());
+        adapter = new UsersAdapter(homeViewModel.getUserArrayList());
         mainUserRecycleView.setAdapter(adapter);
 
         return view;

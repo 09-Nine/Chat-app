@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.chatapp.R;
 import com.example.chatapp.model.User;
 
@@ -21,7 +22,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     private ArrayList<User> userList;
 
     public UsersAdapter(ArrayList<User> users) {
-        userList = new ArrayList<>();
         userList = users;
     }
 
@@ -39,8 +39,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         holder.userName.setText(user.getUserName());
 
 
-        holder.avatar.setImageURI(null);
-        holder.avatar.setImageURI(Uri.parse(user.getImageUri()));
+//        holder.avatar.setImageURI(null);
+//        holder.avatar.setImageURI(Uri.parse(user.getImageUri()));
+        Glide.with(holder.itemView.getContext()).load(Uri.parse(user.getImageUri())).into(holder.avatar);
     }
 
     @Override
