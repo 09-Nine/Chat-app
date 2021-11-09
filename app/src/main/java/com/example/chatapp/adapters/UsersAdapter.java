@@ -38,9 +38,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 
         holder.userName.setText(user.getUserName());
 
-
-//        holder.avatar.setImageURI(null);
-//        holder.avatar.setImageURI(Uri.parse(user.getImageUri()));
         Glide.with(holder.itemView.getContext()).load(Uri.parse(user.getImageUri())).into(holder.avatar);
     }
 
