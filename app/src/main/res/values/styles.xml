@@ -8,7 +8,8 @@
     <style name="viewParent.headerText">
         <item name="android:textColor">@color/primary_text</item>
         <item name="android:textSize">25sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/nexa_bold</item>
+<!--        <item name="android:textStyle">bold</item>-->
     </style>
 
     <style name="viewParent.headerText.settingsMiniTitle">
@@ -47,6 +48,10 @@
         <item name="android:background">@drawable/background_button</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:letterSpacing">0.2</item>
+        <item name="android:fontFamily">@font/nexa_bold</item>
     </style>
 
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/dialog_shape</item>
+    </style>
 </resources>

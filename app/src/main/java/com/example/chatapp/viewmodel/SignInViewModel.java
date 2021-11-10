@@ -1,5 +1,7 @@
 package com.example.chatapp.viewmodel;
 
+import android.util.Patterns;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
@@ -20,20 +22,32 @@ public class SignInViewModel extends BaseViewModel{
     }
 
     public void signIn(String email, String password){
-        firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            userMutableLiveData.postValue(firebaseAuth.getCurrentUser());
-                        } else {
-
+        if (email.trim().isEmpty()){
+            errorMessage.postValue("Please enter email!");
+        } else if (password.trim().isEmpty()){
+            errorMessage.postValue("Please enter password!");
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            errorMessage.postValue("Please enter valid email");
+        } else {
+            firebaseAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()){
+                                userMutableLiveData.postValue(firebaseAuth.getCurrentUser());
+                            } else {
+                                errorMessage.postValue(task.getException().toString());
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
+
+
 
     public MutableLiveData<FirebaseUser> getUserMutableLiveData() {
         return userMutableLiveData;
     }
+
+
 }

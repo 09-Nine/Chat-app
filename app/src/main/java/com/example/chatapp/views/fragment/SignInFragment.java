@@ -41,14 +41,24 @@ public class SignInFragment extends BaseFragment<SignInFragmentBinding, SignInVi
                 }
             }
         });
+
+        mViewModel.getErrorMessage().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if (s != null){
+                    makeToast(s);
+                    binding.login.revertAnimation();
+                    binding.login.setBackgroundResource(R.drawable.background_button);
+                }
+            }
+        });
     }
 
     private void signInUser(){
+        binding.login.startAnimation();
         String email = binding.signInEmail.getText().toString();
         String password = binding.signInPassword.getText().toString();
-        if (!email.trim().isEmpty() && !password.trim().isEmpty()){
-            mViewModel.signIn(email, password);
-        }
+        mViewModel.signIn(email, password);
     }
 
     private void gotoSignUpFragment(){

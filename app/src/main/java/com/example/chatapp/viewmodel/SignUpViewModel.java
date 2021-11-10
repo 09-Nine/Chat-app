@@ -1,6 +1,7 @@
 package com.example.chatapp.viewmodel;
 
 import android.net.Uri;
+import android.util.Patterns;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -27,7 +28,19 @@ public class SignUpViewModel extends BaseViewModel{
 
     }
 
-    public void signUp(String email, String password, String name, Uri imageUri){
+    public void signUp(String email, String password, String name, String cPassword, Uri imageUri){
+        if (!password.equals(cPassword)){
+            errorMessage.postValue("Password and confirm password must be the same");
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            errorMessage.postValue("Please enter valid email");
+        } else  if (email.trim().isEmpty() || name.trim().isEmpty() || password.trim().isEmpty() || cPassword.trim().isEmpty()) {
+            errorMessage.postValue("Please fill out the form");
+        } else {
+            handleSignUp(email, password, name, imageUri);
+        }
+    }
+
+    public void handleSignUp(String email, String password, String name, Uri imageUri){
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -53,7 +66,7 @@ public class SignUpViewModel extends BaseViewModel{
                         upUserToDatabase(firebaseAuth.getUid(), name, email, Constants.USER_IMAGE);
                     }
                 } else {
-
+                    errorMessage.postValue(task.getException().toString());
                 }
             }
         });
@@ -67,7 +80,7 @@ public class SignUpViewModel extends BaseViewModel{
                 if (task.isSuccessful()){
                     userMutableLiveData.postValue(firebaseAuth.getCurrentUser());
                 } else {
-
+                    errorMessage.postValue(task.getException().toString());
                 }
             }
         });
@@ -76,4 +89,6 @@ public class SignUpViewModel extends BaseViewModel{
     public MutableLiveData<FirebaseUser> getUserMutableLiveData() {
         return userMutableLiveData;
     }
+
+
 }

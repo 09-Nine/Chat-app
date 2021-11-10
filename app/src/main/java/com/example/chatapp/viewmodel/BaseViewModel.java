@@ -12,4 +12,9 @@ public class BaseViewModel extends ViewModel {
     protected final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     protected final FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     protected MutableLiveData<Boolean> loggedOut = new MutableLiveData<>();
+    protected MutableLiveData<String> errorMessage = new MutableLiveData<>();
+
+    public MutableLiveData<String> getErrorMessage() {
+        return errorMessage;
+    }
 }
