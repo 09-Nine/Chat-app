@@ -1,6 +1,6 @@
 package com.example.chatapp.model;
 
-import com.google.firebase.firestore.IgnoreExtraProperties;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
 public class User {
@@ -9,8 +9,7 @@ public class User {
    private String email;
    private String imageUri;
 
-   public User(){
-
+   public User() {
    }
 
    public User(String uid, String userName, String email, String imageUri) {

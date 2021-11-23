@@ -17,9 +17,15 @@
         <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/drawable/ic_launcher_background_1.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/drawable/ic_logout.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/drawable/ic_more.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/drawable/ic_more_night.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/drawable/ic_notifications.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/drawable/mess_background_left.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/drawable/mess_background_right.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/font/nexa.xml" value="0.2212962962962963" />
         <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/layout/activity_main.xml" value="0.1068840579710145" />
+        <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/layout/chat_fragment.xml" value="0.22" />
+        <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/layout/chat_item_left.xml" value="0.20833333333333334" />
+        <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/layout/chat_item_right.xml" value="0.20833333333333334" />
         <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/layout/fragment_logged_in.xml" value="0.203125" />
         <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/layout/fragment_login_register.xml" value="0.1" />
@@ -27,11 +33,12 @@
         <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/layout/fragment_sign_in.xml" value="0.1" />
         <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/layout/home_fragment.xml" value="0.25" />
         <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/layout/setting_fragment.xml" value="0.25" />
-        <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/layout/sign_in_fragment.xml" value="0.22" />
+        <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/layout/sign_in_fragment.xml" value="0.5" />
         <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/layout/sign_out_dialog.xml" value="0.14" />
         <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/layout/sign_up_fragment.xml" value="0.22" />
         <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/layout/splash_fragment.xml" value="0.1" />
-        <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/layout/user_item_row.xml" value="0.22" />
+        <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/layout/user_item_row.xml" value="0.25" />
+        <entry key="..\:/Users/9999/Desktop/AndroidStudioProjects/ChatApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.22447916666666667" />
       </map>
     </option>
   </component>
