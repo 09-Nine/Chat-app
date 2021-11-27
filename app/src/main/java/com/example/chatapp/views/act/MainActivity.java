@@ -56,6 +56,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             case Constants.KEY_SHOW_SETTING:
                 SettingFragment settingFragment = new SettingFragment();
                 settingFragment.setCallBack(this);
+                if (data != null) {
+                    if (data instanceof User){
+                        settingFragment.setCurrentUser((User) data);
+                    }
+                }
                 showFragment(R.id.container_view, settingFragment, false, R.anim.anim_start, R.anim.anim_end);
                 break;
             case Constants.KEY_SHOW_CHAT:

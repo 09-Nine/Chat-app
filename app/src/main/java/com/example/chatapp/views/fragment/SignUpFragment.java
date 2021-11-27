@@ -39,10 +39,6 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
         binding.profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent();
-//                intent.setType("image/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                startActivityForResult(Intent.createChooser(intent, "Select picture"), PICK_IMAGE);
                 ImagePicker.Companion.with(SignUpFragment.this)
                         .crop()
                         .start(PICK_IMAGE);
@@ -93,10 +89,10 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
 
     private void signUpUser(){
         binding.signUp.startAnimation();
-        String email = binding.registerEmail.getText().toString();
-        String password = binding.registerPassword.getText().toString();
-        String name = binding.registerName.getText().toString();
-        String cPassword = binding.registerConfirmPassword.getText().toString();
+        String email = binding.registerEmail.getText().toString().trim();
+        String password = binding.registerPassword.getText().toString().trim();
+        String name = binding.registerName.getText().toString().trim();
+        String cPassword = binding.registerConfirmPassword.getText().toString().trim();
         mViewModel.signUp(email, password, name,cPassword, imageUri);
     }
 }

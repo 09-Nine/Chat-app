@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class HomeViewModel extends BaseViewModel {
     private ArrayList<User> userArrayList;
     private MutableLiveData<ArrayList<User>> users;
-    private String currentUserAvatar;
+    private User currentUser;
     private  DatabaseReference reference;
 
     public HomeViewModel() {
@@ -33,7 +33,7 @@ public class HomeViewModel extends BaseViewModel {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     User user = dataSnapshot.getValue(User.class);
                     if (user.getUid().equals(firebaseAuth.getCurrentUser().getUid())){
-                        currentUserAvatar = user.getImageUri();
+                        currentUser = user;
                     } else {
                         userArrayList.add(user);
                     }
@@ -59,7 +59,7 @@ public class HomeViewModel extends BaseViewModel {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     User user = dataSnapshot.getValue(User.class);
                     if (user.getUid().equals(firebaseAuth.getCurrentUser().getUid())){
-                        currentUserAvatar = user.getImageUri();
+                        currentUser = user;
                     } else {
                         userArrayList.add(user);
                     }
@@ -82,7 +82,7 @@ public class HomeViewModel extends BaseViewModel {
         return  userArrayList;
     }
 
-    public String getCurrentUserAvatar() {
-        return currentUserAvatar;
+    public User getCurrentUser() {
+        return currentUser;
     }
 }

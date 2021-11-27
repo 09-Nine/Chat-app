@@ -56,8 +56,8 @@ public class SignInFragment extends BaseFragment<SignInFragmentBinding, SignInVi
 
     private void signInUser(){
         binding.login.startAnimation();
-        String email = binding.signInEmail.getText().toString();
-        String password = binding.signInPassword.getText().toString();
+        String email = binding.signInEmail.getText().toString().trim();
+        String password = binding.signInPassword.getText().toString().trim();
         mViewModel.signIn(email, password);
     }
 

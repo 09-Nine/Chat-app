@@ -1,18 +1,23 @@
 package com.example.chatapp.views.fragment;
 
 import android.app.AlertDialog;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.lifecycle.Observer;
 
+import com.bumptech.glide.Glide;
 import com.example.chatapp.Constants;
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.SettingFragmentBinding;
+import com.example.chatapp.model.User;
 import com.example.chatapp.viewmodel.SettingViewModel;
 import com.example.chatapp.views.act.MainActivity;
 
 public class SettingFragment extends BaseFragment<SettingFragmentBinding, SettingViewModel> {
+    private User currentUser;
+
     @Override
     protected Class<SettingViewModel> getViewModelClass() {
         return SettingViewModel.class;
@@ -25,6 +30,10 @@ public class SettingFragment extends BaseFragment<SettingFragmentBinding, Settin
 
     @Override
     protected void initViews() {
+
+        binding.usernameTextView.setText(currentUser.getUserName());
+        Glide.with(requireContext()).load(Uri.parse(currentUser.getImageUri())).into(binding.profileCircleImageView);
+
         binding.signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,5 +76,9 @@ public class SettingFragment extends BaseFragment<SettingFragmentBinding, Settin
             }
         });
         dialog.show();
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 }

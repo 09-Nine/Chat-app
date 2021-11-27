@@ -38,7 +38,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding, HomeViewMode
         mViewModel.loadUser();
         binding.mainUserRecycleView.setHasFixedSize(true);
         binding.mainUserRecycleView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.currentUserAvatar.setOnClickListener(v -> gotoSettingFragment());
+        binding.currentUserAvatar.setOnClickListener(v -> gotoSettingFragment(mViewModel.getCurrentUser()));
 
         adapter = new UsersAdapter(mViewModel.getUserArrayList());
         binding.mainUserRecycleView.setAdapter(adapter);
@@ -71,15 +71,15 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding, HomeViewMode
             @Override
             public void onChanged(ArrayList<User> users) {
                 adapter.notifyDataSetChanged();
-                if (mViewModel.getCurrentUserAvatar() != null){
-                    Glide.with(requireContext()).load(Uri.parse(mViewModel.getCurrentUserAvatar())).into(binding.currentUserAvatar);
+                if (mViewModel.getCurrentUser() != null){
+                    Glide.with(requireContext()).load(Uri.parse(mViewModel.getCurrentUser().getImageUri())).into(binding.currentUserAvatar);
                 }
             }
         });
     }
 
-    private void gotoSettingFragment(){
-        callBack.callBack(Constants.KEY_SHOW_SETTING, null);
+    private void gotoSettingFragment(User user){
+        callBack.callBack(Constants.KEY_SHOW_SETTING, user);
     }
 
     private void gotoChatFragment(User user){
