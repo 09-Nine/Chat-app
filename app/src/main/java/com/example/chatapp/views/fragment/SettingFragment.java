@@ -14,6 +14,7 @@ import com.example.chatapp.databinding.SettingFragmentBinding;
 import com.example.chatapp.model.User;
 import com.example.chatapp.viewmodel.SettingViewModel;
 import com.example.chatapp.views.act.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingFragment extends BaseFragment<SettingFragmentBinding, SettingViewModel> {
     private User currentUser;
@@ -71,11 +72,26 @@ public class SettingFragment extends BaseFragment<SettingFragmentBinding, Settin
         v.findViewById(R.id.oke).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mViewModel.setStatus(Constants.OFFLINE);
                 mViewModel.signOut();
                 dialog.dismiss();
             }
         });
         dialog.show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mViewModel.setStatus(Constants.ONLINE);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            mViewModel.setStatus(Constants.OFFLINE);
+        }
     }
 
     public void setCurrentUser(User currentUser) {

@@ -7,4 +7,6 @@ public class Constants {
     public static final String KEY_SHOW_HOME = "KEY_SHOW_HOME";
     public static final String KEY_SHOW_SETTING = "KEY_SHOW_SETTING";
     public static final String KEY_SHOW_CHAT = "KEY_SHOW_CHAT";
+    public static final String ONLINE = "ONLINE";
+    public static final String OFFLINE = "OFFLINE";
 }

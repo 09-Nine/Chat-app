@@ -16,7 +16,10 @@ import com.example.chatapp.model.User;
 import com.example.chatapp.viewmodel.ChatViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class ChatFragment extends BaseFragment<ChatFragmentBinding, ChatViewModel> {
@@ -46,7 +49,9 @@ public class ChatFragment extends BaseFragment<ChatFragmentBinding, ChatViewMode
             public void onClick(View v) {
                 String messText = binding.sendingMess.getText().toString();
                 if(!messText.equals("")){
-                    mViewModel.sendMessage(senderUserUid, receiverUser.getUid(), messText, (new Date()).toString());
+                    DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
+                    String date = df.format(Calendar.getInstance().getTime());
+                    mViewModel.sendMessage(senderUserUid, receiverUser.getUid(), messText, date);
                     binding.sendingMess.setText("");
                 }
             }
@@ -65,6 +70,19 @@ public class ChatFragment extends BaseFragment<ChatFragmentBinding, ChatViewMode
         });
         binding.arrowBack.setOnClickListener(v -> gotoHomeFragment());
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mViewModel.setStatus(Constants.ONLINE);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mViewModel.setStatus(Constants.OFFLINE);
+    }
+
 
     public void getUser(User user){
         this.receiverUser = user;

@@ -29,16 +29,18 @@ public class HomeViewModel extends BaseViewModel {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                userArrayList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    User user = dataSnapshot.getValue(User.class);
-                    if (user.getUid().equals(firebaseAuth.getCurrentUser().getUid())){
-                        currentUser = user;
-                    } else {
-                        userArrayList.add(user);
+                if (firebaseAuth.getCurrentUser() != null) {
+                    userArrayList.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        User user = dataSnapshot.getValue(User.class);
+                        if (user.getUid().equals(firebaseAuth.getCurrentUser().getUid())){
+                            currentUser = user;
+                        } else {
+                            userArrayList.add(user);
+                        }
                     }
+                    users.postValue(userArrayList);
                 }
-                users.postValue(userArrayList);
             }
 
             @Override
@@ -55,16 +57,18 @@ public class HomeViewModel extends BaseViewModel {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                userArrayList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    User user = dataSnapshot.getValue(User.class);
-                    if (user.getUid().equals(firebaseAuth.getCurrentUser().getUid())){
-                        currentUser = user;
-                    } else {
-                        userArrayList.add(user);
+                if (firebaseAuth.getCurrentUser() != null) {
+                    userArrayList.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        User user = dataSnapshot.getValue(User.class);
+                        if (user.getUid().equals(firebaseAuth.getCurrentUser().getUid())){
+                            currentUser = user;
+                        } else {
+                            userArrayList.add(user);
+                        }
                     }
+                    users.postValue(userArrayList);
                 }
-                users.postValue(userArrayList);
             }
 
             @Override
@@ -85,4 +89,5 @@ public class HomeViewModel extends BaseViewModel {
     public User getCurrentUser() {
         return currentUser;
     }
+
 }

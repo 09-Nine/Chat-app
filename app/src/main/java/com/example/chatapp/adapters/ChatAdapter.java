@@ -1,6 +1,7 @@
 package com.example.chatapp.adapters;
 
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private ArrayList<Message> messageArrayList;
     private String receiverUri;
     FirebaseUser currentUser;
+    private Message clickedMess;
 
     public ChatAdapter(ArrayList<Message> messages, String receiverUri) {
         messageArrayList = messages;
@@ -48,9 +50,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ChatAdapter.ViewHolder holder, int position) {
         Message msg = messageArrayList.get(position);
-
         holder.showMessage.setText(msg.getMessage());
+        holder.data = msg;
         Glide.with(holder.itemView.getContext()).load(Uri.parse(receiverUri)).into(holder.receiverAvatar);
+        holder.timeText.setText(msg.getTimeStamp());
+        if (msg.equals(clickedMess)) {
+            holder.timeText.setVisibility(View.VISIBLE);
+        } else {
+            holder.timeText.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -58,14 +66,23 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         return messageArrayList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView showMessage;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView showMessage, timeText;
         public CircleImageView receiverAvatar;
+        public Message data;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             showMessage = itemView.findViewById(R.id.show_message);
             receiverAvatar = itemView.findViewById(R.id.receive_user_image);
+            timeText = itemView.findViewById(R.id.time_text);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickedMess = data;
+                    notifyDataSetChanged();
+                }
+            });
         }
     }
 

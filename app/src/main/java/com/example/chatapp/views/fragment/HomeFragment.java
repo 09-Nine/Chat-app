@@ -16,6 +16,7 @@ import com.example.chatapp.databinding.HomeFragmentBinding;
 import com.example.chatapp.interfaces.AdapterListener;
 import com.example.chatapp.model.User;
 import com.example.chatapp.viewmodel.HomeViewModel;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -76,6 +77,18 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding, HomeViewMode
                 }
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mViewModel.setStatus(Constants.ONLINE);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mViewModel.setStatus(Constants.OFFLINE);
     }
 
     private void gotoSettingFragment(User user){

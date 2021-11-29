@@ -8,15 +8,17 @@ public class User {
    private String userName;
    private String email;
    private String imageUri;
+   private String status;
 
    public User() {
    }
 
-   public User(String uid, String userName, String email, String imageUri) {
+   public User(String uid, String userName, String email, String imageUri, String status) {
       this.uid = uid;
       this.userName = userName;
       this.email = email;
       this.imageUri = imageUri;
+      this.status = status;
    }
 
    public String getUid() {
@@ -51,6 +53,12 @@ public class User {
       this.imageUri = imageUri;
    }
 
+   public String getStatus() {
+      return status;
+   }
 
+   public void setStatus(String status) {
+      this.status = status;
+   }
 }
 

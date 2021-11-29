@@ -73,7 +73,7 @@ public class SignUpViewModel extends BaseViewModel{
     }
 
     public void upUserToDatabase(String uid, String name, String email, String imageUri){
-        User user = new User(uid, name, email, imageUri);
+        User user = new User(uid, name, email, imageUri, Constants.OFFLINE);
         databaseReference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

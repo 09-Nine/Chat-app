@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.chatapp.Constants;
 import com.example.chatapp.R;
 import com.example.chatapp.interfaces.AdapterListener;
 import com.example.chatapp.model.User;
@@ -43,6 +45,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = userList.get(position);
+        if (user.getStatus().equals(Constants.ONLINE)) {
+            holder.imgOn.setVisibility(View.VISIBLE);
+            holder.imgOff.setVisibility(View.GONE);
+        } else {
+            holder.imgOn.setVisibility(View.GONE);
+            holder.imgOff.setVisibility(View.VISIBLE);
+        }
 
         holder.userName.setText(user.getUserName());
 
@@ -69,6 +78,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         public CircleImageView avatar;
         public TextView userName;
         public TextView status;
+        public ImageView imgOn;
+        public ImageView imgOff;
         public RelativeLayout container;
 
         public ViewHolder(@NonNull View itemView) {
@@ -76,6 +87,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
             avatar = itemView.findViewById(R.id.avatar);
             userName = itemView.findViewById(R.id.user_name);
             status = itemView.findViewById(R.id.user_status);
+            imgOn = itemView.findViewById(R.id.img_on);
+            imgOff = itemView.findViewById(R.id.img_off);
             container = itemView.findViewById(R.id.user_item_container);
         }
     }

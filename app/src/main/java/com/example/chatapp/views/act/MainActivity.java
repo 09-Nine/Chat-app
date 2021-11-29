@@ -6,7 +6,6 @@ import com.example.chatapp.Constants;
 import com.example.chatapp.R;
 import com.example.chatapp.databinding.ActivityMainBinding;
 import com.example.chatapp.model.User;
-import com.example.chatapp.viewmodel.ChatViewModel;
 import com.example.chatapp.viewmodel.MainViewModel;
 import com.example.chatapp.views.fragment.ChatFragment;
 import com.example.chatapp.views.fragment.HomeFragment;
@@ -61,7 +60,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                         settingFragment.setCurrentUser((User) data);
                     }
                 }
-                showFragment(R.id.container_view, settingFragment, false, R.anim.anim_start, R.anim.anim_end);
+                showFragment(R.id.container_view, settingFragment, true, R.anim.anim_start, R.anim.anim_end);
                 break;
             case Constants.KEY_SHOW_CHAT:
                 ChatFragment chatFragment = new ChatFragment();

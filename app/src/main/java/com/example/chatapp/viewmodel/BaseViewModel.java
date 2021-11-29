@@ -3,7 +3,10 @@ package com.example.chatapp.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.chatapp.model.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 
@@ -17,4 +20,12 @@ public class BaseViewModel extends ViewModel {
     public MutableLiveData<String> getErrorMessage() {
         return errorMessage;
     }
+
+    public void setStatus(String status){
+        DatabaseReference reference = firebaseDatabase.getReference().child("users-reg")
+                    .child(firebaseAuth.getCurrentUser().getUid()).child("status");
+        reference.setValue(status);
+
+    }
+
 }

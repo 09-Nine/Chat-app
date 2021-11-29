@@ -32,12 +32,14 @@
     <TextView
         android:id="@+id/user_status"
         android:layout_marginStart="20dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
         android:layout_toEndOf="@+id/avatar"
         android:layout_below="@+id/user_name"
-        android:text="status" />
+        android:text="status"
+        android:singleLine="true"
+        android:ellipsize="end"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="15dp"
