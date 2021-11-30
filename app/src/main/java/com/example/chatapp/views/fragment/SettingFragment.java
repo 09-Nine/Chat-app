@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CompoundButton;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.Observer;
 
 import com.bumptech.glide.Glide;
@@ -47,6 +49,19 @@ public class SettingFragment extends BaseFragment<SettingFragmentBinding, Settin
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean){
                     gotoSignInFragment();
+                }
+            }
+        });
+
+        binding.darkModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    gotoHomeFragment();
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    gotoHomeFragment();
                 }
             }
         });
@@ -97,4 +112,9 @@ public class SettingFragment extends BaseFragment<SettingFragmentBinding, Settin
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
+
+    private void gotoHomeFragment(){
+        callBack.callBack(Constants.KEY_SHOW_HOME, null);
+    }
+
 }

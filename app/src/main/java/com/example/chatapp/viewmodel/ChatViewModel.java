@@ -20,7 +20,7 @@ public class ChatViewModel extends BaseViewModel{
     private String chatRoom;
     private MutableLiveData<ArrayList<Message>> messageLiveData;
     private ArrayList<Message> messages;
-
+    private ValueEventListener seenListener;
 
     public ChatViewModel(){
         messageLiveData = new MutableLiveData<>();
@@ -37,7 +37,7 @@ public class ChatViewModel extends BaseViewModel{
     }
 
     public void sendMessage(String senderUserUid,String receiverUserUid, String message, String timestamp){
-        Message mess = new Message(message, senderUserUid, receiverUserUid, timestamp);
+        Message mess = new Message(message, senderUserUid, receiverUserUid, timestamp, false);
         reference.push().setValue(mess).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -65,6 +65,29 @@ public class ChatViewModel extends BaseViewModel{
 
             }
         });
+    }
+
+    public void seenMess() {
+        seenListener = reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Message mess = dataSnapshot.getValue(Message.class);
+                    if (mess.getReceiverUid().equals(firebaseAuth.getCurrentUser().getUid())){
+                        dataSnapshot.child("seen").getRef().setValue(true);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void removeSeenListener() {
+        reference.removeEventListener(seenListener);
     }
 
     public ArrayList<Message> getMessages() {

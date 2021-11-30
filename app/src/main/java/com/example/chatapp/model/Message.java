@@ -5,17 +5,18 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Message {
     private String message, senderUid, receiverUid, timeStamp;
+    private Boolean isSeen;
+
 
     public Message() {
     }
 
-
-
-    public Message(String message, String senderUid, String receiverUid , String timeStamp) {
+    public Message(String message, String senderUid, String receiverUid , String timeStamp, Boolean isSeen) {
         this.message = message;
         this.senderUid = senderUid;
         this.receiverUid = receiverUid;
         this.timeStamp = timeStamp;
+        this.isSeen = isSeen;
     }
 
     public String getMessage() {
@@ -48,5 +49,13 @@ public class Message {
 
     public void setReceiverUid(String receiverUid) {
         this.receiverUid = receiverUid;
+    }
+
+    public Boolean getSeen() {
+        return isSeen;
+    }
+
+    public void setSeen(Boolean seen) {
+        isSeen = seen;
     }
 }

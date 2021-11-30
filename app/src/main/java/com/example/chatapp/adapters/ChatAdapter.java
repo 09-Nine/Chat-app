@@ -1,7 +1,6 @@
 package com.example.chatapp.adapters;
 
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +53,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         holder.data = msg;
         Glide.with(holder.itemView.getContext()).load(Uri.parse(receiverUri)).into(holder.receiverAvatar);
         holder.timeText.setText(msg.getTimeStamp());
+        if (position == messageArrayList.size() - 1) {
+            if (msg.getSeen()){
+                holder.textSeen.setText("Seen");
+            } else {
+                holder.textSeen.setText("Delivered");
+            }
+        } else {
+            holder.textSeen.setVisibility(View.GONE);
+        }
+
         if (msg.equals(clickedMess)) {
             holder.timeText.setVisibility(View.VISIBLE);
         } else {
@@ -67,7 +76,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView showMessage, timeText;
+        public TextView showMessage, timeText, textSeen;
         public CircleImageView receiverAvatar;
         public Message data;
         public ViewHolder(@NonNull View itemView) {
@@ -76,6 +85,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             showMessage = itemView.findViewById(R.id.show_message);
             receiverAvatar = itemView.findViewById(R.id.receive_user_image);
             timeText = itemView.findViewById(R.id.time_text);
+            textSeen = itemView.findViewById(R.id.text_seen);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

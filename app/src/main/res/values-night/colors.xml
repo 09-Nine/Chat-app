@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#2D313D</color>
+    <color name="primary">#560bad</color>
+    <color name="primary_text">#fff1e6</color>
+    <color name="secondary_text">#fad2e1</color>
+    <color name="white">#FFFFFF</color>
+    <color name="error">#B00020</color>
+    <color name="link">#168aad</color>
+    <color name="mess_left">#fca311</color>
+    <color name="online">#90be6d</color>
+    <color name="offline">#d8e2dc</color>
+    <color name="button_color_1">#ba78e7</color>
+    <color name="button_color_2">#ad60e1</color>
+</resources>

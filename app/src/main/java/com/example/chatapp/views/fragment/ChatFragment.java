@@ -1,7 +1,9 @@
 package com.example.chatapp.views.fragment;
 
 import android.net.Uri;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ScrollView;
 
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,7 +22,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class ChatFragment extends BaseFragment<ChatFragmentBinding, ChatViewModel> {
     private User receiverUser;
@@ -39,6 +40,14 @@ public class ChatFragment extends BaseFragment<ChatFragmentBinding, ChatViewMode
 
     @Override
     protected void initViews() {
+
+        Runnable runnable=new Runnable() {
+            @Override
+            public void run() {
+                binding.scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        };
+        binding.scrollView.post(runnable);
         senderUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mViewModel.setChatRoom(senderUserUid, receiverUser.getUid());
         mViewModel.loadMessage();
@@ -53,6 +62,7 @@ public class ChatFragment extends BaseFragment<ChatFragmentBinding, ChatViewMode
                     String date = df.format(Calendar.getInstance().getTime());
                     mViewModel.sendMessage(senderUserUid, receiverUser.getUid(), messText, date);
                     binding.sendingMess.setText("");
+                    scrollToBottom();
                 }
             }
         });
@@ -62,6 +72,21 @@ public class ChatFragment extends BaseFragment<ChatFragmentBinding, ChatViewMode
         chatAdapter = new ChatAdapter(mViewModel.getMessages(), receiverUser.getImageUri());
         binding.messageRecycleView.setAdapter(chatAdapter);
 
+       binding.sendingMess.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+           @Override
+           public void onFocusChange(View v, boolean hasFocus) {
+               scrollToBottom();
+           }
+       });
+
+       binding.sendingMess.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               scrollToBottom();
+           }
+       });
+
+
         mViewModel.getMessageLiveData().observe(this, new Observer<ArrayList<Message>>() {
             @Override
             public void onChanged(ArrayList<Message> messages) {
@@ -69,6 +94,7 @@ public class ChatFragment extends BaseFragment<ChatFragmentBinding, ChatViewMode
             }
         });
         binding.arrowBack.setOnClickListener(v -> gotoHomeFragment());
+        mViewModel.seenMess();
     }
 
     @Override
@@ -81,8 +107,12 @@ public class ChatFragment extends BaseFragment<ChatFragmentBinding, ChatViewMode
     public void onPause() {
         super.onPause();
         mViewModel.setStatus(Constants.OFFLINE);
+        mViewModel.removeSeenListener();
     }
 
+    private void scrollToBottom() {
+        binding.scrollView.smoothScrollTo(0, binding.scrollView.getBottom());
+    }
 
     public void getUser(User user){
         this.receiverUser = user;

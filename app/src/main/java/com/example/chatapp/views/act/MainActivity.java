@@ -45,7 +45,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             case Constants.KEY_SHOW_SIGN_UP:
                 SignUpFragment signUpFragment = new SignUpFragment();
                 signUpFragment.setCallBack(this);
-                showFragment(R.id.container_view, signUpFragment, false, R.anim.anim_start, R.anim.anim_end);
+                showFragment(R.id.container_view, signUpFragment, true, R.anim.anim_start, R.anim.anim_end);
                 break;
             case Constants.KEY_SHOW_HOME:
                 HomeFragment homeFragment = new HomeFragment();
@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                         chatFragment.getUser((User) data);
                     }
                 }
-                showFragment(R.id.container_view, chatFragment, false, R.anim.anim_start, R.anim.anim_end);
+                showFragment(R.id.container_view, chatFragment, true, R.anim.anim_start, R.anim.anim_end);
                 break;
         }
     }
