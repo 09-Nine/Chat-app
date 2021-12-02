@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.chatapp.interfaces.OnActionCallBack;
-import com.example.chatapp.R;
 
 public abstract class BaseActivity<BD extends ViewDataBinding, VM extends ViewModel> extends AppCompatActivity
         implements OnActionCallBack {
@@ -39,7 +38,7 @@ public abstract class BaseActivity<BD extends ViewDataBinding, VM extends ViewMo
         if (anim_start != 0 && anim_end != 0){
             ft.setCustomAnimations(anim_start, anim_end);
         }
-        ft.replace(R.id.container_view, fragment);
+        ft.replace(layoutID, fragment);
         if (addToBackStack){
             ft.addToBackStack("add");
         }

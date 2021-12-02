@@ -15,7 +15,6 @@ import com.example.chatapp.R;
 import com.example.chatapp.databinding.SettingFragmentBinding;
 import com.example.chatapp.model.User;
 import com.example.chatapp.viewmodel.SettingViewModel;
-import com.example.chatapp.views.act.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingFragment extends BaseFragment<SettingFragmentBinding, SettingViewModel> {
@@ -37,12 +36,7 @@ public class SettingFragment extends BaseFragment<SettingFragmentBinding, Settin
         binding.usernameTextView.setText(currentUser.getUserName());
         Glide.with(requireContext()).load(Uri.parse(currentUser.getImageUri())).into(binding.profileCircleImageView);
 
-        binding.signOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleSignOut();
-            }
-        });
+        binding.signOut.setOnClickListener(v -> handleSignOut());
 
         mViewModel.getLoggedOut().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
@@ -58,13 +52,13 @@ public class SettingFragment extends BaseFragment<SettingFragmentBinding, Settin
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    gotoHomeFragment();
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    gotoHomeFragment();
                 }
+                gotoHomeFragment();
             }
         });
+
     }
 
     private void gotoSignInFragment(){
@@ -77,12 +71,7 @@ public class SettingFragment extends BaseFragment<SettingFragmentBinding, Settin
         View v = layoutInflater.inflate(R.layout.sign_out_dialog, null);
         builder.setView(v);
         AlertDialog dialog = builder.create();
-        v.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        v.findViewById(R.id.cancel).setOnClickListener(v1 -> dialog.dismiss());
 
         v.findViewById(R.id.oke).setOnClickListener(new View.OnClickListener() {
             @Override

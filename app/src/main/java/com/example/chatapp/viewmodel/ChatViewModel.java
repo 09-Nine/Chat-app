@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.chatapp.model.Message;
-import com.example.chatapp.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -55,7 +54,11 @@ public class ChatViewModel extends BaseViewModel{
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Message mess = dataSnapshot.getValue(Message.class);
                     messages.add(mess);
-
+                    DatabaseReference lastMessReference = firebaseDatabase
+                            .getReference("all-chat")
+                            .child("last_mess")
+                            .child(chatRoom);
+                    lastMessReference.setValue(mess);
                 }
                 messageLiveData.postValue(messages);
             }

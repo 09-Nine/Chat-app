@@ -1,7 +1,6 @@
 package com.example.chatapp.views.fragment;
 
 import android.net.Uri;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ScrollView;
 
@@ -79,12 +78,7 @@ public class ChatFragment extends BaseFragment<ChatFragmentBinding, ChatViewMode
            }
        });
 
-       binding.sendingMess.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               scrollToBottom();
-           }
-       });
+       binding.sendingMess.setOnClickListener(v -> scrollToBottom());
 
 
         mViewModel.getMessageLiveData().observe(this, new Observer<ArrayList<Message>>() {
@@ -94,12 +88,12 @@ public class ChatFragment extends BaseFragment<ChatFragmentBinding, ChatViewMode
             }
         });
         binding.arrowBack.setOnClickListener(v -> gotoHomeFragment());
-        mViewModel.seenMess();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        mViewModel.seenMess();
         mViewModel.setStatus(Constants.ONLINE);
     }
 

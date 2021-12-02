@@ -1,9 +1,12 @@
 package com.example.chatapp.viewmodel;
 
 
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.chatapp.model.Conversation;
+import com.example.chatapp.model.Message;
 import com.example.chatapp.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,14 +18,23 @@ import java.util.ArrayList;
 
 public class HomeViewModel extends BaseViewModel {
     private ArrayList<User> userArrayList;
+    private ArrayList<Conversation> conversationArrayList;
     private MutableLiveData<ArrayList<User>> users;
+    private MutableLiveData<ArrayList<Conversation>> conversations;
     private User currentUser;
-    private  DatabaseReference reference;
+    private DatabaseReference reference;
+    private DatabaseReference lastMessReference;
+    private ValueEventListener eventListener;
 
     public HomeViewModel() {
         userArrayList = new ArrayList<>();
+        conversationArrayList = new ArrayList<>();
         users = new MutableLiveData<>();
+        conversations = new MutableLiveData<>();
         reference = firebaseDatabase.getReference().child("users-reg");
+        lastMessReference = firebaseDatabase
+                .getReference("all-chat")
+                .child("last_mess");
     }
 
     public void loadUser(){
@@ -78,12 +90,54 @@ public class HomeViewModel extends BaseViewModel {
         });
     }
 
+    public void loadRecentConversation() {
+        if (eventListener != null) {
+            lastMessReference.removeEventListener(eventListener);
+        }
+        eventListener = lastMessReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                conversationArrayList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Message mess = dataSnapshot.getValue(Message.class);
+                    if (mess.getReceiverUid().equals(firebaseAuth.getCurrentUser().getUid())) {
+                        for (User u : userArrayList) {
+                            if (u.getUid().equals(mess.getSenderUid())) {
+                                conversationArrayList.add(new Conversation(mess, u));
+                            }
+                        }
+                    } else if (mess.getSenderUid().equals(firebaseAuth.getCurrentUser().getUid())) {
+                        for (User u : userArrayList) {
+                            if (u.getUid().equals(mess.getReceiverUid())) {
+                                conversationArrayList.add(new Conversation(mess, u));
+                            }
+                        }
+                    }
+                    conversations.postValue(conversationArrayList);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     public MutableLiveData<ArrayList<User>> getUsers() {
         return users;
     }
 
+    public MutableLiveData<ArrayList<Conversation>> getConversations() {
+        return conversations;
+    }
+
     public ArrayList<User> getUserArrayList(){
         return  userArrayList;
+    }
+
+    public ArrayList<Conversation> getConversationArrayList() {
+        return conversationArrayList;
     }
 
     public User getCurrentUser() {

@@ -19,7 +19,6 @@ import com.example.chatapp.interfaces.OnActionCallBack;
 
 public abstract class BaseFragment<K extends ViewDataBinding, V extends ViewModel> extends Fragment {
     protected Context mContext;
-    protected View mRootView;
     protected OnActionCallBack callBack;
 
     protected K binding;
@@ -27,14 +26,6 @@ public abstract class BaseFragment<K extends ViewDataBinding, V extends ViewMode
 
     public void setCallBack(OnActionCallBack callBack) {
         this.callBack = callBack;
-    }
-
-    public final <T extends View> T findViewById(int id, View.OnClickListener event){
-        T v = mRootView.findViewById(id);
-        if (v != null && event != null) {
-            v.setOnClickListener(event);
-        }
-        return v;
     }
 
     @Override

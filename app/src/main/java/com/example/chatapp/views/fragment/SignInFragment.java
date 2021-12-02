@@ -1,6 +1,5 @@
 package com.example.chatapp.views.fragment;
 
-import android.view.View;
 
 import androidx.lifecycle.Observer;
 
@@ -24,12 +23,7 @@ public class SignInFragment extends BaseFragment<SignInFragmentBinding, SignInVi
 
     @Override
     protected void initViews() {
-        binding.createAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gotoSignUpFragment();
-            }
-        });
+        binding.createAccount.setOnClickListener(v -> gotoSignUpFragment());
 
         binding.login.setOnClickListener(v -> signInUser());
 

@@ -11,18 +11,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.bumptech.glide.Glide;
 import com.example.chatapp.Constants;
 import com.example.chatapp.R;
+import com.example.chatapp.adapters.RecentUsersAdapter;
 import com.example.chatapp.adapters.UsersAdapter;
 import com.example.chatapp.databinding.HomeFragmentBinding;
 import com.example.chatapp.interfaces.AdapterListener;
+import com.example.chatapp.model.Conversation;
 import com.example.chatapp.model.User;
 import com.example.chatapp.viewmodel.HomeViewModel;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
+
 public class HomeFragment extends BaseFragment<HomeFragmentBinding, HomeViewModel> {
 
-    private UsersAdapter adapter;
+    private UsersAdapter allUsersAdapter;
+    private RecentUsersAdapter recentUsersAdapter;
 
     @Override
     protected Class<HomeViewModel> getViewModelClass() {
@@ -36,19 +39,36 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding, HomeViewMode
 
     @Override
     protected void initViews() {
-        mViewModel.loadUser();
-        binding.mainUserRecycleView.setHasFixedSize(true);
-        binding.mainUserRecycleView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.currentUserAvatar.setOnClickListener(v -> gotoSettingFragment(mViewModel.getCurrentUser()));
 
-        adapter = new UsersAdapter(mViewModel.getUserArrayList());
-        binding.mainUserRecycleView.setAdapter(adapter);
-        adapter.setListener(new AdapterListener() {
+        mViewModel.loadUser();
+
+        //all users recycle view
+        binding.mainUserRecycleView.setHasFixedSize(true);
+        binding.mainUserRecycleView.setLayoutManager(new LinearLayoutManager(requireContext(),
+                LinearLayoutManager.HORIZONTAL, false));
+        allUsersAdapter = new UsersAdapter(mViewModel.getUserArrayList());
+        binding.mainUserRecycleView.setAdapter(allUsersAdapter);
+        allUsersAdapter.setListener(new AdapterListener() {
             @Override
             public void onClick(User user) {
                 gotoChatFragment(user);
             }
         });
+
+
+        //recent user recycle view
+        binding.recentUserRecycleView.setHasFixedSize(true);
+        binding.recentUserRecycleView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recentUsersAdapter = new RecentUsersAdapter(mViewModel.getConversationArrayList());
+        binding.recentUserRecycleView.setAdapter(recentUsersAdapter);
+        recentUsersAdapter.setListener(new AdapterListener() {
+            @Override
+            public void onClick(User user) {
+                gotoChatFragment(user);
+            }
+        });
+
+        binding.currentUserAvatar.setOnClickListener(v -> gotoSettingFragment(mViewModel.getCurrentUser()));
 
         binding.userSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -58,7 +78,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding, HomeViewMode
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mViewModel.searchUser(s.toString());
+                mViewModel.searchUser(s.toString().trim());
             }
 
             @Override
@@ -67,16 +87,23 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding, HomeViewMode
             }
         });
 
-
         mViewModel.getUsers().observe(this, new Observer<ArrayList<User>>() {
             @Override
             public void onChanged(ArrayList<User> users) {
-                adapter.notifyDataSetChanged();
+                allUsersAdapter.notifyDataSetChanged();
+                mViewModel.loadRecentConversation();
                 if (mViewModel.getCurrentUser() != null){
                     Glide.with(requireContext()).load(Uri.parse(mViewModel.getCurrentUser().getImageUri())).into(binding.currentUserAvatar);
                 }
             }
         });
+
+        mViewModel.getConversations().observe(this, new Observer<ArrayList<Conversation>>() {
+           @Override
+           public void onChanged(ArrayList<Conversation> conversations) {
+               recentUsersAdapter.notifyDataSetChanged();
+           }
+       });
     }
 
     @Override
