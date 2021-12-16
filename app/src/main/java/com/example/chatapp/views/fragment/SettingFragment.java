@@ -1,6 +1,8 @@
 package com.example.chatapp.views.fragment;
 
 import android.app.AlertDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import androidx.lifecycle.Observer;
 import com.bumptech.glide.Glide;
 import com.example.chatapp.Constants;
 import com.example.chatapp.R;
+import com.example.chatapp.SharedPrefs;
 import com.example.chatapp.databinding.SettingFragmentBinding;
 import com.example.chatapp.model.User;
 import com.example.chatapp.viewmodel.SettingViewModel;
@@ -19,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingFragment extends BaseFragment<SettingFragmentBinding, SettingViewModel> {
     private User currentUser;
+    private SharedPrefs sharedPrefs;
 
     @Override
     protected Class<SettingViewModel> getViewModelClass() {
@@ -32,9 +36,13 @@ public class SettingFragment extends BaseFragment<SettingFragmentBinding, Settin
 
     @Override
     protected void initViews() {
+        if (currentUser != null) {
+            mViewModel.setCurrentUserLiveData(currentUser);
+        }
+        sharedPrefs = new SharedPrefs(requireActivity());
 
-        binding.usernameTextView.setText(currentUser.getUserName());
-        Glide.with(requireContext()).load(Uri.parse(currentUser.getImageUri())).into(binding.profileCircleImageView);
+        binding.usernameTextView.setText(mViewModel.getCurrentUserLiveData().getValue().getUserName());
+        Glide.with(requireContext()).load(Uri.parse(mViewModel.getCurrentUserLiveData().getValue().getImageUri())).into(binding.profileCircleImageView);
 
         binding.signOut.setOnClickListener(v -> handleSignOut());
 
@@ -52,12 +60,15 @@ public class SettingFragment extends BaseFragment<SettingFragmentBinding, Settin
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    sharedPrefs.setBooleanValue(Constants.MODE_KEY, true);
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    sharedPrefs.setBooleanValue(Constants.MODE_KEY, false);
                 }
-                gotoHomeFragment();
             }
         });
+
+        binding.darkModeSwitch.setChecked(sharedPrefs.getBooleanValue(Constants.MODE_KEY));
 
     }
 
@@ -71,6 +82,7 @@ public class SettingFragment extends BaseFragment<SettingFragmentBinding, Settin
         View v = layoutInflater.inflate(R.layout.sign_out_dialog, null);
         builder.setView(v);
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         v.findViewById(R.id.cancel).setOnClickListener(v1 -> dialog.dismiss());
 
         v.findViewById(R.id.oke).setOnClickListener(new View.OnClickListener() {
@@ -97,13 +109,7 @@ public class SettingFragment extends BaseFragment<SettingFragmentBinding, Settin
             mViewModel.setStatus(Constants.OFFLINE);
         }
     }
-
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
-
-    private void gotoHomeFragment(){
-        callBack.callBack(Constants.KEY_SHOW_HOME, null);
-    }
-
 }

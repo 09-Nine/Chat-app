@@ -9,4 +9,6 @@ public class Constants {
     public static final String KEY_SHOW_CHAT = "KEY_SHOW_CHAT";
     public static final String ONLINE = "ONLINE";
     public static final String OFFLINE = "OFFLINE";
+    public static final String MODE_SHARED_PREFERENCE = "MODE_SHARED_PREFERENCE";
+    public static final String MODE_KEY = "MODE_KEY";
 }

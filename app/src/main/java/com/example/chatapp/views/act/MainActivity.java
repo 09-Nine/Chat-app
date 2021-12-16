@@ -2,8 +2,12 @@ package com.example.chatapp.views.act;
 
 
 
+
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.example.chatapp.Constants;
 import com.example.chatapp.R;
+import com.example.chatapp.SharedPrefs;
 import com.example.chatapp.databinding.ActivityMainBinding;
 import com.example.chatapp.model.User;
 import com.example.chatapp.viewmodel.MainViewModel;
@@ -15,7 +19,6 @@ import com.example.chatapp.views.fragment.SignUpFragment;
 import com.example.chatapp.views.fragment.SplashFragment;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
-
 
     @Override
     protected Class<MainViewModel> getViewModelClass() {
@@ -32,6 +35,16 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected void setUpAct() {
+        SharedPrefs sharedPrefs = new SharedPrefs(this);
+        if (sharedPrefs.getBooleanValue(Constants.MODE_KEY)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     @Override

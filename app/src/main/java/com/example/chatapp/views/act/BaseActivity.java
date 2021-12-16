@@ -21,6 +21,7 @@ public abstract class BaseActivity<BD extends ViewDataBinding, VM extends ViewMo
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setUpAct();
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(getViewModelClass());
         binding = DataBindingUtil.setContentView(this, getLayoutId());
@@ -31,17 +32,21 @@ public abstract class BaseActivity<BD extends ViewDataBinding, VM extends ViewMo
 
     protected  abstract void initViews();
     protected abstract int getLayoutId();
+    protected abstract void setUpAct();
 
     protected void showFragment(int layoutID, Fragment fragment, boolean addToBackStack,
                                 int anim_start, int anim_end){
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if (anim_start != 0 && anim_end != 0){
-            ft.setCustomAnimations(anim_start, anim_end);
+        if (!isFinishing() && !isDestroyed()) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            if (anim_start != 0 && anim_end != 0){
+                ft.setCustomAnimations(anim_start, anim_end);
+            }
+            ft.replace(layoutID, fragment);
+            if (addToBackStack){
+                ft.addToBackStack("add");
+            }
+            ft.commit();
         }
-        ft.replace(layoutID, fragment);
-        if (addToBackStack){
-            ft.addToBackStack("add");
-        }
-        ft.commit();
+
     }
 }

@@ -8,8 +8,6 @@ import com.example.chatapp.databinding.SplashFragmentBinding;
 import com.example.chatapp.viewmodel.SplashViewModel;
 
 public class SplashFragment extends BaseFragment<SplashFragmentBinding, SplashViewModel> {
-
-
     @Override
     protected Class<SplashViewModel> getViewModelClass() {
         return SplashViewModel.class;
