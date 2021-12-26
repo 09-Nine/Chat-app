@@ -19,7 +19,6 @@ import com.google.firebase.auth.FirebaseUser;
 public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpViewModel> {
 
     private Uri imageUri;
-    public static final int PICK_IMAGE = 1;
 
 
     @Override
@@ -41,7 +40,7 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
             public void onClick(View v) {
                 ImagePicker.Companion.with(SignUpFragment.this)
                         .crop()
-                        .start(PICK_IMAGE);
+                        .start(Constants.PICK_IMAGE);
             }
         });
 
@@ -72,16 +71,13 @@ public class SignUpFragment extends BaseFragment<SignUpFragmentBinding, SignUpVi
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE){
+        if (requestCode == Constants.PICK_IMAGE){
             if (data != null){
                 imageUri = data.getData();
                 binding.profileImage.setImageURI(imageUri);
             }
         }
     }
-
-
-
 
     private void gotoSignInFragment(){
         callBack.callBack(Constants.KEY_SHOW_SIGN_IN, null);

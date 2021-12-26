@@ -11,4 +11,5 @@ public class Constants {
     public static final String OFFLINE = "OFFLINE";
     public static final String MODE_SHARED_PREFERENCE = "MODE_SHARED_PREFERENCE";
     public static final String MODE_KEY = "MODE_KEY";
+    public static final int PICK_IMAGE = 1;
 }
